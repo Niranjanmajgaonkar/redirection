@@ -4,15 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Choose Your App Store</title>
-
     <style>
       :root {
-        --bg-1: #f4f6ff;
-        --bg-2: #e6ecff;
-        --text: #111827;
-        --muted: #6b7280;
-        --android: #16a34a;
-        --ios: #000000;
+        --bg-1: #f7f8fc;
+        --bg-2: #e9eef8;
+        --text: #1a2233;
+        --muted: #5d6880;
+        --android: #15a04a;
+        --ios: #111111;
         --card: #ffffff;
       }
 
@@ -26,151 +25,144 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: var(--text);
         background:
-          radial-gradient(circle at 10% 20%, #ffffff 0%, transparent 40%),
-          radial-gradient(circle at 90% 80%, #c7d2fe 0%, transparent 45%),
+          radial-gradient(circle at 10% 10%, #ffffff 0%, transparent 35%),
+          radial-gradient(circle at 85% 90%, #dbe5fb 0%, transparent 45%),
           linear-gradient(135deg, var(--bg-1), var(--bg-2));
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
 
       .overlay {
+        min-height: 100vh;
         width: 100%;
+        display: grid;
+        place-items: center;
         padding: 24px;
       }
 
       .modal {
         width: min(720px, 100%);
-        margin: auto;
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(14px);
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.9);
-        border-radius: 24px;
-        padding: 30px;
-        box-shadow:
-          0 25px 60px rgba(0, 0, 0, 0.08),
-          inset 0 1px 0 rgba(255, 255, 255, 0.8);
-        animation: floatCard 6s ease-in-out infinite;
-      }
-
-      @keyframes floatCard {
-        0%,100% { transform: translateY(0px); }
-        50% { transform: translateY(-6px); }
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 18px 45px rgba(19, 36, 73, 0.12);
       }
 
       .heading {
         text-align: center;
         margin-bottom: 6px;
-        font-size: clamp(1.6rem, 2vw, 2.2rem);
-        font-weight: 700;
+        font-size: clamp(1.4rem, 2vw, 2rem);
       }
 
       .subheading {
         text-align: center;
-        margin: 0 0 28px;
+        margin: 0 0 24px;
         color: var(--muted);
       }
 
       .popup-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(220px, 1fr));
-        gap: 20px;
+        gap: 16px;
         perspective: 1200px;
       }
 
       .popup-card {
         background: var(--card);
-        border-radius: 20px;
-        padding: 26px 18px;
+        border: 1px solid #e8edfb;
+        border-radius: 16px;
+        padding: 22px 16px;
         text-align: center;
         cursor: pointer;
         text-decoration: none;
         color: inherit;
         position: relative;
         transform-style: preserve-3d;
-        transform: rotateX(6deg) rotateY(-6deg);
+        transform: rotateX(2deg) rotateY(-2deg) translateZ(0);
         box-shadow:
-          0 12px 25px rgba(0, 0, 0, 0.08),
-          0 25px 45px rgba(0, 0, 0, 0.08);
-        transition: all 0.35s cubic-bezier(.17,.67,.38,1.4);
+          0 8px 16px rgba(19, 36, 73, 0.09),
+          0 18px 30px rgba(19, 36, 73, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        transition: transform 0.28s ease, box-shadow 0.28s ease;
         overflow: hidden;
       }
 
-      /* Hover effect (Desktop) */
       .popup-card:hover {
-        transform: rotateX(0deg) rotateY(0deg) translateY(-10px) scale(1.03);
+        transform: rotateX(0deg) rotateY(0deg) translateY(-6px) translateZ(22px);
         box-shadow:
-          0 18px 35px rgba(0, 0, 0, 0.12),
-          0 35px 60px rgba(0, 0, 0, 0.15);
+          0 16px 26px rgba(19, 36, 73, 0.11),
+          0 32px 42px rgba(19, 36, 73, 0.14),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
       }
 
-      /* Click animation (Mobile + Desktop press) */
-      .popup-card:active {
-        transform: scale(0.96);
-        box-shadow:
-          0 6px 12px rgba(0, 0, 0, 0.15) inset;
-      }
-
-      /* Glow animation */
       .popup-card::before {
         content: "";
         position: absolute;
         inset: 0;
         background: linear-gradient(
-          120deg,
-          transparent 20%,
-          rgba(255,255,255,0.6),
-          transparent 80%
+          135deg,
+          rgba(255, 255, 255, 0.55) 0%,
+          rgba(255, 255, 255, 0) 45%
         );
-        transform: translateX(-100%);
-        transition: 0.6s;
+        pointer-events: none;
       }
 
-      .popup-card:hover::before {
-        transform: translateX(100%);
+      .popup-card::after {
+        content: "";
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: -14px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(17, 36, 79, 0.12);
+        filter: blur(10px);
+        transform: translateZ(-30px);
+        z-index: -1;
       }
 
       .icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 16px;
-        margin: 0 auto 14px;
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        margin: 0 auto 10px;
         display: grid;
         place-items: center;
         font-weight: 700;
         color: #fff;
-        font-size: 1.2rem;
-        box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+        font-size: 1.1rem;
       }
 
       .android .icon {
-        background: linear-gradient(135deg, #22c55e, #15803d);
+        background: var(--android);
       }
 
       .ios .icon {
-        background: linear-gradient(135deg, #333, #000);
+        background: var(--ios);
       }
 
       .title {
         margin: 0 0 6px;
-        font-size: 1.2rem;
-        font-weight: 600;
+        font-size: 1.1rem;
       }
 
       .desc {
         margin: 0;
         color: var(--muted);
-        font-size: 0.95rem;
+        font-size: 0.92rem;
       }
 
       @media (max-width: 640px) {
+        .modal {
+          padding: 22px 16px;
+        }
+
         .popup-grid {
           grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
-
   <body>
     <main class="overlay">
       <section class="modal" aria-label="Store selection popup">
@@ -183,6 +175,7 @@
             href="https://play.google.com/store/apps/details?id=com.swt.passilo"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Open Android app link"
           >
             <div class="icon">A</div>
             <h2 class="title">Android</h2>
@@ -194,6 +187,7 @@
             href="https://apps.apple.com/in/app/passilo/id6759452123"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Open iOS app link"
           >
             <div class="icon">iOS</div>
             <h2 class="title">iOS</h2>
