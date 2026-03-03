@@ -64,6 +64,7 @@
         display: grid;
         grid-template-columns: repeat(2, minmax(220px, 1fr));
         gap: 16px;
+        perspective: 1200px;
       }
 
       .popup-card {
@@ -75,12 +76,49 @@
         cursor: pointer;
         text-decoration: none;
         color: inherit;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+        transform-style: preserve-3d;
+        transform: rotateX(2deg) rotateY(-2deg) translateZ(0);
+        box-shadow:
+          0 8px 16px rgba(19, 36, 73, 0.09),
+          0 18px 30px rgba(19, 36, 73, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        transition: transform 0.28s ease, box-shadow 0.28s ease;
+        overflow: hidden;
       }
 
       .popup-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(23, 47, 99, 0.12);
+        transform: rotateX(0deg) rotateY(0deg) translateY(-6px) translateZ(22px);
+        box-shadow:
+          0 16px 26px rgba(19, 36, 73, 0.11),
+          0 32px 42px rgba(19, 36, 73, 0.14),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      }
+
+      .popup-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.55) 0%,
+          rgba(255, 255, 255, 0) 45%
+        );
+        pointer-events: none;
+      }
+
+      .popup-card::after {
+        content: "";
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: -14px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(17, 36, 79, 0.12);
+        filter: blur(10px);
+        transform: translateZ(-30px);
+        z-index: -1;
       }
 
       .icon {
